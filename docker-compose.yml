@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   server:
     build:
@@ -14,8 +16,7 @@ services:
     volumes:
       - ./server:/app
     depends_on:
-      database:
-        condition: service_healthy
+      - database  # depends_on: database: { condition: service_healthy } 수정
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
@@ -42,9 +43,14 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./map_database:/var/lib/mysql
+      - db_data:/var/lib/mysql  # 주석 처리하여 호스트 디렉토리와의 볼륨 공유를 방지합니다.
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
+
+
+# 볼륨 설정 추가
+volumes:
+  db_data:

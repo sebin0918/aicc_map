@@ -16,9 +16,10 @@ done
 
 echo "데이터베이스가 준비되었습니다. 서버를 시작합니다."
 
-# Node.js 의존성 설치
-npm install
-npm install nodemailer
+# nodemailer가 필요한 경우 설치 (이미지 빌드 중에 포함하지 않은 경우)
+if ! npm list nodemailer > /dev/null 2>&1; then
+  npm install nodemailer
+fi
 
 # 기존 비밀번호를 해싱하는 스크립트 실행 (필요한 경우)
 node join_security/hashExistingPasswords.js

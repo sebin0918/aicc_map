@@ -1,3 +1,9 @@
+-- AICC_DB_MAP 데이터베이스가 없는 경우에만 생성
+CREATE DATABASE IF NOT EXISTS aicc_db_map;
+USE aicc_db_map;
+
+
+-- 나머지 테이블 생성 명령어를 여기에 추가...
 /* User */
 CREATE TABLE tb_user
 (
@@ -192,6 +198,12 @@ CREATE TABLE tb_faq
     faq_answer              LONGTEXT        NOT NULL,
     PRIMARY KEY (faq_id)
 );
+
+/* Root User Creation/Modification */
+CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'root1234';
+ALTER USER 'root'@'%' IDENTIFIED BY 'root1234';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
 
 SET GLOBAL innodb_lock_wait_timeout = 1000;
 

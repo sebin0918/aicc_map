@@ -72,15 +72,30 @@ cur = conn.cursor()
 print(f'========== DATABASE Connect ==========')
 
 # 데이터베이스 생성
-cur.execute(f"DROP DATABASE IF EXISTS {database_name}")
-cur.execute(f"CREATE DATABASE {database_name}")
+# cur.execute(f"DROP DATABASE IF EXISTS {database_name}")
+# cur.execute(f"CREATE DATABASE {database_name}")
+# cur.execute(f"USE {database_name}")
+
+# AICC_DB_MAP 데이터베이스만 초기화 (mysql 데이터베이스는 건드리지 않음)
+cur.execute(f"CREATE DATABASE IF NOT EXISTS {database_name}")
 cur.execute(f"USE {database_name}")
 
+# # SQL 파일 실행
+# with open(sql_file_path, 'r', encoding='utf-8') as sql_file:
+#     sql_commands = sql_file.read().split(';')
+#     for command in sql_commands:
+#         if command.strip():
+#             cur.execute(command)
+
+# print(f'========== Insert query start! ==========')
+
 # SQL 파일 실행
+sql_file_path = './MAP_project_create_table.sql'
 with open(sql_file_path, 'r', encoding='utf-8') as sql_file:
     sql_commands = sql_file.read().split(';')
     for command in sql_commands:
         if command.strip():
+            print(f'Executing SQL command: {command}')  # 디버깅용 출력 추가
             cur.execute(command)
 
 print(f'========== Insert query start! ==========')

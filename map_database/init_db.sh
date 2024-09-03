@@ -1,26 +1,19 @@
 #!/bin/bash
 
-# 데이터 디렉토리를 비우고 초기화
-rm -rf /var/lib/mysql/*
-
-# MariaDB 데이터 디렉토리 초기화 (기본 시스템 테이블 생성)
-mysql_install_db --user=mysql --datadir=/var/lib/mysql
+# MariaDB 데이터 디렉토리 초기화 및 서버 시작
+echo "Initializing MariaDB data directory and starting MariaDB server..."
 
 # MariaDB 서버 시작
-mariadbd --user=mysql --console &
+/usr/bin/mariadbd --user=mysql --datadir=/var/lib/mysql &  # 비루트 사용자로 MariaDB 서버 시작
 
-# MariaDB가 완전히 시작될 때까지 기다림
-until mariadb -u root -p"${MYSQL_ROOT_PASSWORD}" -e "SELECT 1" >/dev/null 2>&1; do
-  echo "Waiting for MariaDB to be ready..."
-  sleep 5
-done
+# MariaDB 준비 완료 대기
+echo "Waiting for MariaDB to be ready..."
+sleep 10
 
-echo "MariaDB is ready. Initializing the database."
+# MariaDB 서버 상태 확인
+echo "Checking MariaDB server status..."
+mariadb-admin -u root -p root1234 status  # 클라이언트 도구를 사용하여 MariaDB 상태 확인
 
-# Python 스크립트를 실행하여 데이터베이스 초기화
+# Python 스크립트 실행
+echo "Running Python script..."
 python3 /docker-entrypoint-initdb.d/MAP_project_DATABASE.py
-
-echo "Database initialization complete."
-
-# MariaDB 서버가 계속 실행되도록 대기
-tail -f /dev/null

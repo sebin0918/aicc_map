@@ -53,7 +53,7 @@ all_tables_df = [
 import pymysql
 
 sql_file_path = './MAP_project_create_table.sql'
-database_host_ip = '127.0.0.1'
+database_host_ip = 'database'
 database_name = 'AICC_DB_MAP'
 database_id = 'root'
 database_passwd = 'root1234'

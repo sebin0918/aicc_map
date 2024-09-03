@@ -16,12 +16,14 @@ services:
     volumes:
       - ./server:/app
     depends_on:
-      - database  # depends_on: database: { condition: service_healthy } 수정
+      database:
+        condition: service_healthy  # 수정된 부분
     healthcheck:
       test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
       timeout: 10s
       retries: 3
+    restart: always  # 추가된 부분
 
   client:
     build:
@@ -30,6 +32,7 @@ services:
       - "3000:80"
     volumes:
       - ./client:/app
+    restart: always  # 추가된 부분
 
   database:
     build:
@@ -38,19 +41,15 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: root1234
       MYSQL_DATABASE: aicc_db_map
-      MYSQL_USER: root
-      MYSQL_PASSWORD: root1234
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql  # 주석 처리하여 호스트 디렉토리와의 볼륨 공유를 방지합니다.
+      - db_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
 
-
-# 볼륨 설정 추가
 volumes:
   db_data:

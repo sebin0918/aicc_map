@@ -1,0 +1,338 @@
+/* Base Container */
+/* 전체 페이지 컨테이너를 화면 중앙에 정렬하고, 가로와 세로를 100%로 설정하여 중앙에 위치시킵니다. */
+.mypage-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+  
+/* White Box */
+/* 중앙에 위치한 흰색 박스를 설정합니다. 가로 800px, 배경색은 흰색, 그림자와 둥근 모서리를 추가합니다. 상하 마진을 40px로 설정합니다. */
+.mypage-white-box {
+    width: 800px;
+    height: 500px;
+    background: #FFFFFF;
+    box-shadow: 0px 19px 40px rgba(0, 0, 0, 0.05);
+    border-radius: 20px;
+    padding: 20px;
+    margin-top: 40px;
+    margin-bottom: 60px;
+}
+  
+/* Form Layout */
+/* 폼 레이아웃을 설정합니다. 행을 가로로 정렬하고, 각 폼 요소 사이에 간격을 둡니다. */
+.mypage-form-row {
+    display: flex;
+    height: 500px;
+    /* height: -50%; */
+    justify-content: space-between;
+    margin-bottom: 5px;
+    /* background-color: blue; */
+    margin-top: -20px;
+}
+  
+/* 폼 컬럼의 너비를 48%로 설정하여 두 개의 컬럼이 가로로 배치되도록 합니다. */
+.mypage-form-column {
+    width: 48%;
+    height: 35%;
+    max-height: 35%;
+    margin-bottom: 30%;
+    /* background-color: red; */
+    /* padding-top: -15%; */
+    padding-bottom: 40%;
+}
+  
+/* Form Fields */
+/* 폼 필드 내 요소를 수평으로 정렬하고, 필드 간 간격을 20px로 설정합니다. */
+.mypage-form-field {
+    /* background-color: yellow; */
+    display: flex;
+    align-items: center;
+    margin-bottom: 40px;
+    flex-wrap: nowrap; /* 요소들이 한 줄에 나타나도록 설정 */
+}
+  
+/* 입력 필드 스타일을 설정합니다. 높이는 40px, 배경색은 연한 베이지 색(#F8F3ED), 테두리를 제거하고 둥근 모서리를 추가합니다. */
+
+
+.mypage-form-input {
+    flex: 1;
+    height: 40px;
+    background: #F8F3ED;
+    border: none;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #555555;
+    margin-top: 30px;
+    margin-right: 10px; /* 버튼과의 간격 설정 */
+    margin-left: 10px;  /* 라벨과의 간격 설정 */
+    margin-top: -5px;   /* 입력 필드를 위로 올리기 위해 margin-top 추가 */
+}
+
+
+
+/* confirm-email 버튼 2개를 위해 스타일을 설정합니다. input box 크기 조절*/
+.mypage-form-input-email {
+    flex: 1; /* 입력 필드가 남은 공간을 모두 차지하도록 설정 */
+    height: 40px;
+    width: 100px;
+    background: #F8F3ED;
+    border: none;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #555555;
+    margin-right: 10px; /* 버튼과의 간격 설정 */
+}
+
+
+  
+/* 폼 라벨 스타일을 설정합니다. 폰트는 Poppins, 너비는 150px로 설정하여 텍스트가 잘리지 않도록 합니다. 기본 글자색은 검정색입니다. */
+.mypage-label {
+    display: flex;
+    align-items: center;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    margin-right: 10px;
+    width: 150px; /* Increased width to fit text */
+    color: black; /* Default color is black */
+}
+
+/* 필수 입력 필드를 나타내는 * 기호의 색상을 빨간색(#F76F71)으로 설정하고, * 기호와 라벨 텍스트 사이에 간격을 둡니다. */
+.mypage-label span {
+    color: #F76F71; /* Red color for the * symbol */
+    margin-right: 5px; /* Space between * and label text */
+}
+  
+/* Change Button */
+/* 변경 버튼의 스타일을 설정합니다. 배경색은 회색(#cccccc), 글자색은 흰색, 둥근 모서리를 추가합니다. */
+.mypage-change-button {
+    margin-left: 10px;
+    background-color: #cccccc;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    white-space: nowrap; /* 텍스트를 한 줄로 표시 */
+}
+
+.mypage-change-button-email {
+    background-color: #cccccc;
+    color: #FFF;
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    width: 55px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    white-space: normal; /* 줄바꿈 허용 */
+    line-height: 1.2; /* 줄 간격 설정 */
+    text-align: center; /* 텍스트를 중앙 정렬 */
+    margin-right: 10px; /* 오른쪽에 여백 추가 */
+}
+
+.mypage-change-button-email:last-child {
+    margin-right: 0; /* 마지막 버튼에는 마진을 제거 */
+}
+
+
+
+/* Radio Buttons */
+/* 라디오 버튼 그룹의 스타일을 설정합니다. 라디오 버튼과 라벨을 수평으로 정렬합니다. */
+.mypage-radio-group {
+    display: flex;
+    align-items: center;
+}
+  
+/* 라디오 버튼 라벨의 스타일을 설정합니다. 라벨 사이 간격을 10px로 둡니다. */
+.mypage-radio-group label {
+    margin-right: 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: black;
+}
+  
+/* 라디오 버튼과 라벨 사이에 간격을 둡니다. */
+.mypage-radio-input {
+    margin-right: 5px;
+}
+  
+/* Verification and Submit */
+/* 인증 및 제출 영역의 스타일을 설정합니다. 인증 입력 필드와 버튼을 수평으로 정렬하고, 필드 간 간격을 둡니다. */
+.mypage-verification-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+  
+/* 인증 입력 필드의 스타일을 설정합니다. 입력 필드는 배경색이 연한 베이지(#F8F3ED)로 설정되고, 둥근 모서리를 가집니다. */
+.mypage-verification-input {
+    flex: 1;
+    height: 40px;
+    background: #F8F3ED;
+    border: none;
+    border-radius: 8px;
+    padding: 0 10px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    color: #555555;
+}
+  
+/* 인증 버튼의 스타일을 설정합니다. 배경색은 빨간색(#F76F71), 글자색은 흰색입니다. */
+.mypage-verification-button {
+    margin-left: 5px;
+    background-color: #F76F71;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    height: 40px;
+    padding: 0 10px;
+    cursor: pointer;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+  
+/* 제출 버튼의 스타일을 설정합니다. 너비는 20%, 배경색은 보라색(#9C00FF)으로 설정하고, 중앙에 텍스트를 정렬합니다. */
+.mypage-submit-button {
+    width: 20%;
+    height: 40px;
+    background: #9C00FF;
+    border-radius: 20px;
+    text-align: center;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    margin-top: -100px;
+    border: none;
+}
+  
+/* 제출 버튼 텍스트의 스타일을 설정합니다. 폰트는 Poppins로 설정됩니다. */
+.mypage-text-submit {
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+}
+  
+/* Text Only Buttons */
+/* Text Only Buttons */
+/* 텍스트만 있는 오른쪽 정렬 버튼의 스타일을 설정합니다. 배경과 테두리가 없으며, 텍스트는 검정색입니다. */
+.mypage-text-only-right-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer; /* 포인터 커서를 설정하여 클릭 가능하게 만듦 */
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    line-height: normal;
+    display: inline-block;
+    float: right;
+    color: black;
+    font-size: 14px;
+    margin-top: -35px;
+    margin-right: 10px;
+    z-index: 100; /* 클릭을 방해하는 다른 요소 위에 표시 */
+    position: relative; /* 상대 위치 설정으로 클릭 가능하게 */
+}
+
+/* Text Only Buttons (왼쪽 정렬 버튼) */
+.mypage-text-only-left-button {
+    background: none;
+    border: none;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    text-align: right;
+    line-height: normal;
+    display: inline-block;
+    float: left;
+}
+
+  
+/* Modal Container */
+/* 모달 컨테이너를 설정합니다. 화면 전체를 덮는 반투명한 배경을 가지며, 모든 뷰포트에서 가운데 정렬됩니다. */
+.mypage-modal-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    z-index: 1000;
+}
+  
+/* Modal */
+/* 모달 창의 스타일을 설정합니다. 흰색 배경에 둥근 모서리와 그림자를 추가하고, 중앙에 텍스트를 정렬합니다. */
+.mypage-modal {
+    color: black;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 400px;
+    padding: 20px;
+    text-align: center;
+    z-index: 1001;
+}
+  
+/* Modal Buttons */
+/* 모달 버튼의 스타일을 설정합니다. 배경색은 보라색(#9C00FF), 텍스트는 흰색입니다. */
+.mypage-modal-button {
+    background: #9C00FF;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    font-size: 14px;
+}
+  
+/* 모달 버튼에 호버 시 동일한 배경색을 유지합니다. */
+.mypage-modal-button:hover {
+    background: #9C00FF;
+}
+  
+/* 취소 버튼의 스타일을 설정합니다. 배경색은 회색이며, 호버 시 어두운 회색으로 변경됩니다. */
+.mypage-cancel-button {
+    background: grey;
+}
+  
+.mypage-cancel-button:hover {
+    background: darkgrey;
+}
+
+
+.mypage-profile-error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: -30px; /* 오류 메시지를 요소 위로 올리기 위해 상단 여백을 늘림 */
+    margin-bottom: 20px; /* 올바른 간격을 유지하기 위해 하단 여백 조정 */
+    text-align: center;
+    position: relative;
+    top: -20px; /* 더 위로 이동시키고 싶다면 이 값을 조정 */
+    z-index: 10; /* 다른 요소 위에 위치하도록 설정 */
+}

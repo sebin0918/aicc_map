@@ -1,0 +1,58 @@
+@import url('https://unpkg.com/@fullcalendar/core@5.10.1/main.min.css');
+@import url('https://unpkg.com/@fullcalendar/daygrid@5.10.1/main.min.css');
+
+.household {
+  width: 100%;
+
+}
+
+.household .household-body {
+  width: 1200px;
+  margin: auto;
+}
+
+.household .household-body .household-header {
+  text-align: left;
+
+}
+
+div.fc-daygrid-day-frame.fc-scrollgrid-sync-inner {
+  height: 120px;
+}
+
+/* amount */
+.household-amount-plus,
+.household-amount-minus {
+  text-align: center;
+  font-size: 30px;
+  background-color: transparent;
+  border: 0px;
+  margin: auto;
+  padding: auto;
+}
+
+.household-amount-plus {
+  -webkit-text-fill-color: #f76f71 !important;
+}
+
+.household-amount-minus {
+  -webkit-text-fill-color: #5dc8cc;
+}
+
+/* Button */
+button.fc-dayGridMonth-button.fc-button.fc-button-primary,
+button.fc-dayGridWeek-button.fc-button.fc-button-primary,
+button.fc-dayGridDay-button.fc-button.fc-button-primary {
+  background-color: #6200ff94;
+  color: rgb(162, 160, 160);
+  font: bold;
+}
+
+button.fc-dayGridMonth-button.fc-button.fc-button-primary.fc-button-active,
+button.fc-dayGridWeek-button.fc-button.fc-button-primary.fc-button-active,
+button.fc-dayGridDay-button.fc-button.fc-button-primary.fc-button-active,
+div.fc.fc-media-screen.fc-direction-ltr.fc-theme-standard div.fc-header-toolbar.fc-toolbar.fc-toolbar-ltr div button.fc-today-button,
+button.fc-prev-button.fc-button.fc-button-primary,
+button.fc-next-button.fc-button.fc-button-primary {
+  background-color: #6100ff;
+}

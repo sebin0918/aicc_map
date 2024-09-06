@@ -1,40 +1,40 @@
-version: '3.8'
+version: '3.8'  # Docker Compose 파일 버전
 
-services:
-  server:
+services:  # 서비스 정의
+  server:  # 서버 서비스
     build:
-      context: ./server
+      context: ./server  # 빌드 컨텍스트
     ports:
-      - "5000:5000"
-    environment:
+      - "5000:5000"  # 포트 매핑
+    environment:  # 환경 변수 설정
       - NODE_ENV=production
-      - DB_HOST=database
+      - DB_HOST=database  # DB 서비스와 연결
       - DB_PORT=3306
       - DB_USER=root
       - DB_PASSWORD=root1234
       - DB_NAME=aicc_db_map
     volumes:
-      - ./server:/app
+      - ./server:/app  # 볼륨 매핑
     depends_on:
-      database:
-        condition: service_healthy  # 수정된 부분
-    healthcheck:
+      database:  # DB 서비스에 의존
+        condition: service_healthy
+    healthcheck:  # 서버 상태 체크
       test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
       timeout: 10s
       retries: 3
-    restart: always  # 추가된 부분
+    restart: always  # 항상 재시작
 
-  client:
+  client:  # 클라이언트 서비스
     build:
       context: ./client
     ports:
       - "3000:80"
     volumes:
       - ./client:/app
-    restart: always  # 추가된 부분
+    restart: always
 
-  database:
+  database:  # 데이터베이스 서비스
     build:
       context: ./map_database
     restart: always
@@ -44,12 +44,12 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - db_data:/var/lib/mysql
-    healthcheck:
+      - db_data:/var/lib/mysql  # 데이터베이스 볼륨
+    healthcheck:  # DB 상태 체크
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
-  db_data:
+  db_data:  # DB 데이터 볼륨

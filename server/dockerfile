@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y default-mysql-client
 # 패키지 파일 복사 및 설치
 COPY package*.json ./
 RUN npm install && npm install nodemailer
+RUN pip install pandas
+
 
 # 모델과 스크립트 파일 복사
 COPY ./src/algorithm /app

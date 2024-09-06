@@ -16,16 +16,9 @@ done
 
 echo "데이터베이스가 준비되었습니다. 서버를 시작합니다."
 
-# nodemailer가 필요한 경우 설치 (이미지 빌드 중에 포함하지 않은 경우)
-if ! npm list nodemailer > /dev/null 2>&1; then
-  npm install nodemailer
-fi
-
-# 기존 비밀번호를 해싱하는 스크립트 실행 (필요한 경우)
-node join_security/hashExistingPasswords.js
-
-# Python 스크립트를 Node.js 서버 실행 전에 백그라운드에서 실행 (필요할 경우)
-# python your_model_script.py &
+# Python 스크립트를 백그라운드에서 실행 (필요할 경우)
+# 예: 모델 관련 스크립트 실행 (주석 제거하여 사용)
+# python3 /app/models/your_model_script.py &
 
 # Node.js 서버 시작
 node app.js

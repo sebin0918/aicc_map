@@ -1,27 +1,47 @@
-# Base image로 MariaDB 사용
-FROM mariadb:latest
+# Base image로 MariaDB 11.3.2 사용
+FROM mariadb:11.3.2
 
-# 환경 변수 설정
+# 환경 변수 설정 (MariaDB 사용자와 비밀번호)
 ENV MYSQL_ROOT_PASSWORD=root1234
 ENV MYSQL_DATABASE=aicc_db_map
 
-# MariaDB 클라이언트 도구 및 Python 설치
-RUN apt-get update && apt-get install -y mariadb-client python3 python3-pip
+# 필요한 빌드 도구 및 Python 설치
+RUN apt-get update && \
+    apt-get install -y wget build-essential libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev git && \
+    wget https://www.python.org/ftp/python/3.11.9/Python-3.11.9.tgz && \
+    tar xzf Python-3.11.9.tgz && \
+    cd Python-3.11.9 && \
+    ./configure --enable-optimizations && \
+    make altinstall && \
+    ln -s /usr/local/bin/python3.11 /usr/bin/python3 && \
+    apt-get install -y python3-pip && \
+    pip3 install --upgrade pip && \
+    # 필요없는 빌드 도구 제거
+    apt-get remove -y build-essential libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
-# Python 패키지 설치 (apt 사용)
-RUN apt-get install -y python3-pandas python3-pymysql
+# 필요한 Python 라이브러리 설치
+RUN pip3 install pymysql==1.1.1 \
+    plotly==5.23.0 \
+    pykrx==1.0.48 \
+    yfinance==0.2.41 \
+    fredapi==0.5.2 \
+    tqdm  
+# tqdm 추가
+
+# GitHub에서 FinanceDataReader 소스 다운로드
+RUN git clone https://github.com/FinanceData/FinanceDataReader.git /app/FinanceDataReader
+
+# FinanceDataReader 모듈이 있는 경로를 PYTHONPATH에 추가
+ENV PYTHONPATH="${PYTHONPATH}:/app/FinanceDataReader"
 
 # 작업 디렉토리 설정
-WORKDIR /docker-entrypoint-initdb.d
+WORKDIR /app
 
-# 초기화 SQL 파일 및 Python 스크립트, init_db.sh 복사
-COPY MAP_project_create_table.sql /docker-entrypoint-initdb.d/
-COPY MAP_project_DATABASE.py /docker-entrypoint-initdb.d/
-COPY ./datas /docker-entrypoint-initdb.d/datas
-COPY init_db.sh /docker-entrypoint-initdb.d/init_db.sh
+# 모든 파일 복사 (map_database 디렉토리 안의 모든 파일을 /app으로 복사)
+COPY . /app/
 
-# 스크립트에 실행 권한 부여
-RUN chmod +x /docker-entrypoint-initdb.d/init_db.sh
 
-# MariaDB가 시작되기 전 init_db.sh 스크립트를 실행합니다.
-CMD ["bash", "/docker-entrypoint-initdb.d/init_db.sh"]
+# 컨테이너 시작 시 DB_setting.py 파일을 한 번 실행하기 위한 entrypoint 설정
+ENTRYPOINT ["bash", "-c", "python3 /app/DB_setting.py && exec mysqld"]

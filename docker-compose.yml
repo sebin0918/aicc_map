@@ -13,11 +13,8 @@ services:  # 서비스 정의
       - DB_USER=root
       - DB_PASSWORD=root1234
       - DB_NAME=aicc_db_map
-    volumes:
-      - ./server:/app  # 볼륨 매핑
-    depends_on:
-      database:  # DB 서비스에 의존
-        condition: service_healthy
+    depends_on:  # DB 서비스에 의존
+      - database
     healthcheck:  # 서버 상태 체크
       test: ["CMD", "curl", "-f", "http://localhost:5000"]
       interval: 30s
@@ -29,10 +26,8 @@ services:  # 서비스 정의
     build:
       context: ./client
     ports:
-      - "3000:80"
-    volumes:
-      - ./client:/app
-    restart: always
+      - "3000:80"  # 클라이언트는 80 포트를 사용해 Nginx에서 정적 파일 서빙
+    restart: always  # 항상 재시작
 
   database:  # 데이터베이스 서비스
     build:

@@ -1,30 +1,72 @@
-# Node.js 이미지 사용
+# # # Node.js 이미지 사용
+# # FROM node:18
+
+# # Node.js 이미지 사용 (build 단계)
+# FROM node:18 as build
+
+# # 작업 디렉토리 설정
+# WORKDIR /app
+
+# # 필수 패키지 설치
+# RUN apt-get update && \
+#     apt-get install -y default-mysql-client python3 python3-pip && \
+#     apt-get clean && \
+#     rm -rf /var/lib/apt/lists/*
+
+# # Node.js 패키지 설치
+# COPY package*.json ./
+# RUN npm install && npm install nodemailer
+
+# # Python 패키지 설치
+# RUN pip3 install pandas scikit-learn tensorflow torch
+
+# # 소스 코드와 모델 파일 복사
+# COPY ./src/algorithm /app/src/algorithm
+# # COPY ./models /app/models
+
+# # join_security 해싱 스크립트 실행 후 종료
+# COPY ./join_security /app/join_security
+# RUN node /app/join_security/hashExistingPasswords.js && \
+#     sleep 2 && \
+#     pkill node  # 실행 후 프로세스 종료
+
+# # entrypoint.sh 파일을 작업 디렉토리에 복사하고 실행 권한 부여
+# COPY entrypoint.sh /app/entrypoint.sh
+# RUN chmod +x /app/entrypoint.sh
+
+# # 포트 설정
+# EXPOSE 5000
+
+# # Entrypoint 설정
+# ENTRYPOINT ["/app/entrypoint.sh"]
+
+
+# Node.js 이미지 사용 (build 단계)
+FROM node:18 as build
+
+# 작업 디렉토리 설정
+WORKDIR /app
+
+# Node.js 이미지를 사용하여 빌드 단계 설정
 FROM node:18
 
 # 작업 디렉토리 설정
 WORKDIR /app
 
-# MySQL 클라이언트 도구 설치
-RUN apt-get update && apt-get install -y default-mysql-client
-
-# 패키지 파일 복사 및 설치
+# 패키지 파일 복사 및 의존성 설치
 COPY package*.json ./
-RUN npm install && npm install nodemailer
-RUN pip install pandas
+RUN npm install  
+# package.json에 정의된 모든 의존성 설치
 
+# 소스 코드 복사
+COPY . .
 
-# 모델과 스크립트 파일 복사
-COPY ./src/algorithm /app
+# 필요한 경우 빌드 실행 (API 서버로서만 동작할 경우 필요 없음)
+# RUN npm run build
 
-# 추가 필요한 스크립트 또는 모델 파일 복사
-# COPY ./src/algorithm/model.h5 /app
-
-# entrypoint.sh 파일을 작업 디렉토리에 복사하고 실행 권한 부여
-COPY entrypoint.sh /app/entrypoint.sh
-RUN chmod +x /app/entrypoint.sh
-
-# 포트 설정
+# 애플리케이션 포트 열기
 EXPOSE 5000
 
-# Entrypoint 설정
-ENTRYPOINT ["/app/entrypoint.sh"]
+# Node.js 서버 시작
+CMD ["node", "app.js"]
+

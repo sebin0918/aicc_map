@@ -1,27 +1,20 @@
-# Base image로 MariaDB 사용
-FROM mariadb:latest
+FROM python:3.11.9
 
-# 환경 변수 설정
-ENV MYSQL_ROOT_PASSWORD=root1234
-ENV MYSQL_DATABASE=aicc_db_map
+WORKDIR /usr/src/app
 
-# MariaDB 클라이언트 도구 및 Python 설치
-RUN apt-get update && apt-get install -y mariadb-client python3 python3-pip
+RUN pip install --upgrade pip
 
-# Python 패키지 설치 (apt 사용)
-RUN apt-get install -y python3-pandas python3-pymysql
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
-# 작업 디렉토리 설정
-WORKDIR /docker-entrypoint-initdb.d
+RUN pip install notebook nbconvert
 
-# 초기화 SQL 파일 및 Python 스크립트, init_db.sh 복사
-COPY MAP_project_create_table.sql /docker-entrypoint-initdb.d/
-COPY MAP_project_DATABASE.py /docker-entrypoint-initdb.d/
-COPY ./datas /docker-entrypoint-initdb.d/datas
-COPY init_db.sh /docker-entrypoint-initdb.d/init_db.sh
+COPY . .
 
-# 스크립트에 실행 권한 부여
-RUN chmod +x /docker-entrypoint-initdb.d/init_db.sh
+RUN apt-get update && apt-get install -y \
+    libmariadb-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# MariaDB가 시작되기 전 init_db.sh 스크립트를 실행합니다.
-CMD ["bash", "/docker-entrypoint-initdb.d/init_db.sh"]
+EXPOSE 3306
+
+CMD ["jupyter", "notebook", "--to", "notebook", "--execute", "make_sample_data.ipynb", "data_to_excel.ipynb", "MAP_project_DATABASE.ipynb"]

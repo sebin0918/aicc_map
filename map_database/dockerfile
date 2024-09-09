@@ -5,6 +5,9 @@ FROM mariadb:11.3.2
 ENV MYSQL_ROOT_PASSWORD=root1234
 ENV MYSQL_DATABASE=aicc_db_map
 
+# MariaDB 실행을 위한 사용자 생성
+RUN useradd -r -u 1001 -g mysql mysql_user
+
 # 필요한 빌드 도구 및 Python 설치
 RUN apt-get update && \
     apt-get install -y wget build-essential libssl-dev zlib1g-dev libncurses5-dev libncursesw5-dev libreadline-dev libsqlite3-dev libgdbm-dev libc6-dev libbz2-dev libffi-dev git && \
@@ -27,8 +30,7 @@ RUN pip3 install pymysql==1.1.1 \
     pykrx==1.0.48 \
     yfinance==0.2.41 \
     fredapi==0.5.2 \
-    tqdm  
-# tqdm 추가
+    tqdm  # tqdm 추가
 
 # GitHub에서 FinanceDataReader 소스 다운로드
 RUN git clone https://github.com/FinanceData/FinanceDataReader.git /app/FinanceDataReader
@@ -42,6 +44,8 @@ WORKDIR /app
 # 모든 파일 복사 (map_database 디렉토리 안의 모든 파일을 /app으로 복사)
 COPY . /app/
 
+# 비루트 사용자로 전환
+USER mysql_user
 
-# 컨테이너 시작 시 DB_setting.py 파일을 한 번 실행하기 위한 entrypoint 설정
-ENTRYPOINT ["bash", "-c", "python3 /app/DB_setting.py && exec mysqld"]
+# MariaDB 서버가 시작된 후 Python 스크립트를 실행하는 entrypoint 설정
+ENTRYPOINT ["bash", "-c", "mariadbd & sleep 10 && python3 /app/DB_setting.py && tail -f /dev/null"]

@@ -34,12 +34,15 @@ services:  # 서비스 정의
       context: ./map_database
     restart: always
     environment:
+      # MYSQL_HOST: database
+      # MYSQL_USER: root
       MYSQL_ROOT_PASSWORD: root1234
       MYSQL_DATABASE: aicc_db_map
     ports:
       - "3306:3306"
     volumes:
       - db_data:/var/lib/mysql  # 데이터베이스 볼륨
+      - ./MAP_project_create_table.sql:/docker-entrypoint-initdb.d/MAP_project_create_table.sql  # SQL 파일 마운트
     healthcheck:  # DB 상태 체크
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       interval: 10s

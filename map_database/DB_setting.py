@@ -217,10 +217,10 @@ df_len = [] # 데이터 길이를 조절하기 위한 리스트
 
 
 # ************************************** tb_stock **************************************
-fdr_start_year = start_day[:4]
+fdr_start_year = start_day
 
 # Samsung(005930)
-samsung_stock = fdr.DataReader('005930', fdr_start_year) 
+samsung_stock = yf.download('005930.KS', fdr_start_year) 
 samsung_stock.rename(columns={'Close' : 'sc_ss_stock'}, inplace=True)
 samsung_stock = samsung_stock['sc_ss_stock']
 
@@ -241,7 +241,7 @@ samsung_Market_Cap['sc_ss_mc'] = samsung_Market_Cap['sc_ss_mc'].astype(str).map(
 
 # Apple(AAPL)
 # Apple Stock
-apple_stock = fdr.DataReader('AAPL', fdr_start_year) 
+apple_stock = yf.download('AAPL', fdr_start_year) 
 apple_stock.rename(columns={'Close' : 'sc_ap_stock'}, inplace=True)
 apple_stock = apple_stock['sc_ap_stock']
 
@@ -267,7 +267,7 @@ apple_Market_Cap.set_index(keys='Date', inplace=True)
 apple_Market_Cap['sc_ap_mc'] = apple_Market_Cap['sc_ap_mc'].astype(str).map(lambda x : x+'000')
 
 # Bit-Coin(BTC)
-bitcoin_stock = fdr.DataReader('BTC/USD', fdr_start_year) 
+bitcoin_stock = yf.download('BTC-USD', fdr_start_year) 
 bitcoin_stock.rename(columns={'Close' : 'sc_coin'}, inplace=True)
 bitcoin_stock = bitcoin_stock['sc_coin']
 
@@ -287,22 +287,22 @@ stock_df['fd_date'] = stock_df['fd_date'].astype(str).map(lambda x : x[:10])
 
 # ************************************** tb_main_economic_index **************************************
 # NASDAQ
-nasdaq = fdr.DataReader('IXIC', fdr_start_year)
+nasdaq = yf.download('^IXIC', fdr_start_year)
 nasdaq.rename(columns = {'Close' : 'mei_nasdaq'}, inplace=True)
 nasdaq = nasdaq['mei_nasdaq']
 
 # S&P500
-snp500 = fdr.DataReader('S&P500', fdr_start_year)
+snp500 = yf.download('^GSPC', fdr_start_year)
 snp500.rename(columns = {'Close' : 'mei_sp500'}, inplace=True)
 snp500 = snp500['mei_sp500']
 
 # Dow
-Dow = fdr.DataReader('DJI', fdr_start_year)
+Dow = yf.download('^DJI', fdr_start_year)
 Dow.rename(columns = {'Close' : 'mei_dow'}, inplace=True)
 Dow = Dow['mei_dow']
 
 # KOSPI
-kospi = fdr.DataReader('KS11', fdr_start_year)
+kospi = yf.download('^KS11', fdr_start_year)
 kospi.rename(columns = {'Close' : 'mei_kospi'}, inplace=True)
 kospi = kospi['mei_kospi']
 
@@ -331,7 +331,7 @@ oil_data['Date'] = pd.to_datetime(oil_data['Date'])
 oil_data.set_index(keys='Date', inplace=True)
 
 # Exchange Rate
-dollar_to_won = fdr.DataReader('USD/KRW', fdr_start_year)
+dollar_to_won = yf.download('KRW=X', fdr_start_year)
 dollar_to_won.rename(columns={'Close' : 'mei_ex_rate'}, inplace=True)
 dollar_to_won = dollar_to_won['mei_ex_rate']
 
